@@ -3,11 +3,12 @@ package dev.maximilian.backend.data.model;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public enum Gender {
+public enum CardType {
 
-    M("Male"),
-    F("Female"),
-    O("Other");
+    VISA("Visa"),
+    MASTERCARD("MasterCard"),
+    AMERICAN_EXPRESS("American Express"),
+    DISCOVER("Discover");
 
     private final String displayName;
 
