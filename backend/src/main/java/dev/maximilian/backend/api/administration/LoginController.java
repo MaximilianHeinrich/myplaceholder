@@ -1,17 +1,18 @@
 package dev.maximilian.backend.api.administration;
 
-import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-@RequestMapping
-@RequiredArgsConstructor
+@Controller
 public class LoginController {
 
-    @GetMapping("/login")
-    public String loginPage() {
+    @GetMapping("register")
+    public String register() {
+        return "register"; // maps to src/main/resources/templates/register.html
+    }
+
+    @GetMapping("login")
+    public String login() {
         return "login"; // maps to src/main/resources/templates/login.html
     }
 

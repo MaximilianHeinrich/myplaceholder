@@ -9,6 +9,10 @@ import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
+//TODO: Env variable for development
+//TODO: Confirmation email sending
+//TODO: Regex
+//TODO: Self cleanup of unverified clients after a certain period
 @Entity
 @Table(name = "clients")
 @NoArgsConstructor
@@ -29,11 +33,16 @@ public class Client {
     private String email;
     @Column(unique = true)
     private String apiKey;
+    private String verificationId;
+    private boolean verified;
 
     @PrePersist
     public void prePersist() {
         if (apiKey == null) {
             apiKey = UUID.randomUUID().toString();
+        }
+        if (verificationId == null) {
+            verificationId = UUID.randomUUID().toString();
         }
     }
 

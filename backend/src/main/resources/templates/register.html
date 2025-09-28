@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org/">
+<html>
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Registration</title>
     <style>
         /** Base Colors */
         :root {
@@ -57,7 +58,7 @@
             margin: 0;
         }
 
-        .login-container {
+        .form-container {
             background: var(--clr-surface-a0);
             padding: 2rem 2.5rem;
             border-radius: 8px;
@@ -65,7 +66,7 @@
             width: 320px;
         }
 
-        .login-container h2 {
+        .form-container h2 {
             margin-bottom: 1.5rem;
             text-align: center;
             color: var(--clr-light-a0);
@@ -114,49 +115,102 @@
             text-align: center;
         }
 
-        .logout-message {
+        .success-message {
             margin-top: 1rem;
             color: var(--clr-success-a0);
             font-size: 0.9rem;
             text-align: center;
         }
 
-        .login-container a {
+        .form-container a {
             color: var(--clr-info-a0);
             text-decoration: none;
         }
 
-        .login-container a:hover {
+        .form-container a:hover {
             text-decoration: underline;
         }
     </style>
 </head>
 <body>
-<div class="login-container">
-    <h2>Login</h2>
-    <form th:action="@{/login}" method="post">
+
+<div class="form-container">
+    <h2>Client Registration</h2>
+
+    <form id="registrationForm">
         <div class="form-group">
             <label for="username">Username</label>
-            <input id="username" type="text" name="username" required/>
+            <input type="text" id="username" name="username" placeholder="Enter your username" required>
         </div>
+
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="Enter your email" required>
+        </div>
+
         <div class="form-group">
             <label for="password">Password</label>
-            <input id="password" type="password" name="password" required/>
+            <input type="password" id="password" name="password" placeholder="Enter your password" required>
         </div>
 
-        <button type="submit">Login</button>
-
-        <div th:if="${param.error}" class="error-message">
-            Invalid username or password.
-        </div>
-        <div th:if="${param.logout}" class="logout-message">
-            You have been logged out.
+        <div class="form-group">
+            <label for="confirmPassword">Confirm Password</label>
+            <input type="password" id="confirmPassword" placeholder="Confirm your password" required>
+            <div id="passwordMismatch" class="error-message" style="display: none;">Passwords do not match!</div>
         </div>
 
-        <p style="text-align:center; margin-top: 1.5rem;">
-            <a th:href="@{/register}">Don't have an account? Register here</a>
-        </p>
+        <div class="form-group">
+            <button type="submit">Register</button>
+        </div>
     </form>
+
+    <div id="message"></div>
 </div>
+
+<script>
+    document.getElementById("registrationForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        var username = document.getElementById("username").value;
+        var email = document.getElementById("email").value;
+        var password = document.getElementById("password").value;
+        var confirmPassword = document.getElementById("confirmPassword").value;
+
+        if (password !== confirmPassword) {
+            document.getElementById("passwordMismatch").style.display = "block";
+            return;
+        } else {
+            document.getElementById("passwordMismatch").style.display = "none";
+        }
+
+        var data = {
+            username: username,
+            email: email,
+            password: password
+        };
+
+        fetch("/api/v1/administration/client/register", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response => {
+                if (response.status === 200) {
+                    return response.json();
+                } else {
+                    throw new Error('Registration failed');
+                }
+            })
+            .then(data => {
+                document.getElementById("message").innerHTML = `<div class="success-message">Registration successful! Please check your email for verification.</div>`;
+            })
+            .catch(error => {
+                document.getElementById("message").innerHTML = `<div class="error-message">Registration failed. Please try again.</div>`;
+            });
+    });
+</script>
+
 </body>
 </html>
