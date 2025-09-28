@@ -1,4 +1,12 @@
 package dev.maximilian.backend.exception;
 
-public record APIError() {
+import java.time.LocalDateTime;
+
+public record APIError(
+        String path,
+        String message,
+        int statusCode,
+        LocalDateTime localDateTime
+) {
+
 }

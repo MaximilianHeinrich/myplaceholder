@@ -12,6 +12,8 @@ public class MACAddress {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String mac;
-    private String vendor;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "vendor_id", referencedColumnName = "id")
+    private Vendor vendor;
 
 }
