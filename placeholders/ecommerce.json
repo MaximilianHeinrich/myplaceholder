@@ -1,0 +1,91 @@
+[
+  {
+    "product_name": "Wireless Mouse",
+    "price": 29.99,
+    "currency_id": 1,
+    "quantity": 150,
+    "description": "A high-quality wireless mouse with ergonomic design.",
+    "in_stock": true
+  },
+  {
+    "product_name": "Bluetooth Speaker",
+    "price": 59.99,
+    "currency_id": 1,
+    "quantity": 75,
+    "description": "A portable Bluetooth speaker with excellent sound quality.",
+    "in_stock": true
+  },
+  {
+    "product_name": "Smartphone",
+    "price": 499.99,
+    "currency_id": 2,
+    "quantity": 40,
+    "description": "A high-end smartphone with advanced features, perfect for mobile gaming.",
+    "in_stock": true
+  },
+  {
+    "product_name": "Gaming Laptop",
+    "price": 1299.99,
+    "currency_id": 2,
+    "quantity": 10,
+    "description": "A powerful gaming laptop with a high-refresh-rate display and fast processor.",
+    "in_stock": false
+  },
+  {
+    "product_name": "Wireless Keyboard",
+    "price": 49.99,
+    "currency_id": 1,
+    "quantity": 200,
+    "description": "A wireless keyboard with a slim design, quiet keys, and long battery life.",
+    "in_stock": true
+  },
+  {
+    "product_name": "4K Ultra HD TV",
+    "price": 799.99,
+    "currency_id": 3,
+    "quantity": 30,
+    "description": "A 55-inch 4K Ultra HD television with vibrant colors and enhanced sound quality.",
+    "in_stock": true
+  },
+  {
+    "product_name": "Smartwatch",
+    "price": 199.99,
+    "currency_id": 1,
+    "quantity": 125,
+    "description": "A smartwatch with health-tracking features, notifications, and fitness support.",
+    "in_stock": true
+  },
+  {
+    "product_name": "Electric Toothbrush",
+    "price": 89.99,
+    "currency_id": 1,
+    "quantity": 50,
+    "description": "A rechargeable electric toothbrush with multiple cleaning modes and a long-lasting battery.",
+    "in_stock": true
+  },
+  {
+    "product_name": "Laptop Stand",
+    "price": 39.99,
+    "currency_id": 2,
+    "quantity": 180,
+    "description": "A portable laptop stand with adjustable height, ideal for ergonomics and comfort.",
+    "in_stock": true
+  },
+  {
+    "product_name": "Smart Home Hub",
+    "price": 99.99,
+    "currency_id": 3,
+    "quantity": 60,
+    "description": "A smart home hub for controlling lights, security cameras, and other connected devices.",
+    "in_stock": true
+  },
+  {
+    "product_name": "Noise-Cancelling Headphones",
+    "price": 249.99,
+    "currency_id": 1,
+    "quantity": 50,
+    "description": "Premium noise-cancelling headphones with deep bass and crystal-clear sound.",
+    "in_stock": true
+  }
+]
+
