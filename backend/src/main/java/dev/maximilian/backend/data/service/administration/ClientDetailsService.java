@@ -20,6 +20,10 @@ public class ClientDetailsService implements UserDetailsService {
         Client client = clientRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
+        if (!client.isVerified()) {
+            throw new UsernameNotFoundException("Account not verified");
+        }
+
         return User.builder()
                 .username(client.getUsername())
                 .password(client.getPassword())

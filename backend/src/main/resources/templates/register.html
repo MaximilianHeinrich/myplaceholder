@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Client Registration</title>
     <style>
-        /** Base Colors */
         :root {
             --clr-dark-a0: #000000;
             --clr-light-a0: #ffffff;
@@ -140,23 +139,23 @@
     <form id="registrationForm">
         <div class="form-group">
             <label for="username">Username</label>
-            <input type="text" id="username" name="username" placeholder="Enter your username" required>
+            <input id="username" name="username" placeholder="Enter your username" required type="text">
         </div>
 
         <div class="form-group">
             <label for="email">Email</label>
-            <input type="email" id="email" name="email" placeholder="Enter your email" required>
+            <input id="email" name="email" placeholder="Enter your email" required type="email">
         </div>
 
         <div class="form-group">
             <label for="password">Password</label>
-            <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            <input id="password" name="password" placeholder="Enter your password" required type="password">
         </div>
 
         <div class="form-group">
             <label for="confirmPassword">Confirm Password</label>
-            <input type="password" id="confirmPassword" placeholder="Confirm your password" required>
-            <div id="passwordMismatch" class="error-message" style="display: none;">Passwords do not match!</div>
+            <input id="confirmPassword" placeholder="Confirm your password" required type="password">
+            <div class="error-message" id="passwordMismatch" style="display: none;">Passwords do not match!</div>
         </div>
 
         <div class="form-group">
@@ -168,7 +167,7 @@
 </div>
 
 <script>
-    document.getElementById("registrationForm").addEventListener("submit", function(event) {
+    document.getElementById("registrationForm").addEventListener("submit", function (event) {
         event.preventDefault();
 
         var username = document.getElementById("username").value;
@@ -197,19 +196,17 @@
             body: JSON.stringify(data)
         })
             .then(response => {
-                if (response.status === 200) {
-                    return response.json();
+                if (response.status === 200 || response.status === 302) {
+                    document.getElementById("message").innerHTML = `<div class="success-message">Registration successful! Please check your email for verification.</div>`;
                 } else {
-                    throw new Error('Registration failed');
+                    document.getElementById("message").innerHTML = `<div class="error-message">Registration failed. Please try again.</div>`;
                 }
             })
-            .then(data => {
-                document.getElementById("message").innerHTML = `<div class="success-message">Registration successful! Please check your email for verification.</div>`;
-            })
             .catch(error => {
-                document.getElementById("message").innerHTML = `<div class="error-message">Registration failed. Please try again.</div>`;
+                document.getElementById("message").innerHTML = `<div class="error-message">An error occurred. Please try again.</div>`;
             });
     });
+
 </script>
 
 </body>

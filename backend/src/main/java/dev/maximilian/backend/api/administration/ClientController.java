@@ -3,12 +3,13 @@ package dev.maximilian.backend.api.administration;
 import dev.maximilian.backend.data.entity.administration.Client;
 import dev.maximilian.backend.data.service.administration.ClientService;
 import dev.maximilian.backend.repository.administration.ClientRepository;
-import dev.maximilian.backend.repository.person.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("api/v1/administration/client")
@@ -23,16 +24,11 @@ public class ClientController {
         return clientService.createClient(request);
     }
 
-    //TODO: Remove this endpoint in production
-    /** This endpoint is only for testing purposes to retrieve the API key of a client
-    In production, the API key should be securely stored and not retrievable via an endpoint
-    Clients should be provided their API key upon registration and be responsible for its storage
-    Alternatively, implement a secure mechanism for API key retrieval if necessary **/
-    @GetMapping("apiKey")
-    public String getApiKey(@RequestParam String username) {
-        Client client = clientRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("Client not found"));
-        return client.getApiKey();
+    @PostMapping("regenerate")
+    public ResponseEntity<Client> regenerate() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Optional<Client> client = clientRepository.findByUsername(authentication.getName());
+        return clientService.regenerateApiKey(client);
     }
 
     public static record RegisterRequest(String username, String email, String password) {

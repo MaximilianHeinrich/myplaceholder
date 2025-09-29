@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Email Verification</title>
+    <style>
+        :root {
+            --clr-dark-a0: #000000;
+            --clr-light-a0: #ffffff;
+
+            --clr-primary-a0: #c0ddca;
+            --clr-primary-a10: #c7e1d0;
+            --clr-primary-a20: #cee5d6;
+            --clr-primary-a30: #d5e8db;
+            --clr-primary-a40: #dcece1;
+            --clr-primary-a50: #e3f0e7;
+
+            --clr-surface-a0: #121212;
+            --clr-surface-a10: #282828;
+            --clr-surface-a20: #3f3f3f;
+            --clr-surface-a30: #575757;
+            --clr-surface-a40: #717171;
+            --clr-surface-a50: #8b8b8b;
+
+            --clr-surface-tonal-a0: #212322;
+            --clr-surface-tonal-a10: #363837;
+            --clr-surface-tonal-a20: #4c4d4c;
+            --clr-surface-tonal-a30: #636463;
+            --clr-surface-tonal-a40: #7b7c7b;
+            --clr-surface-tonal-a50: #949594;
+
+            --clr-success-a0: #22946e;
+            --clr-success-a10: #47d5a6;
+            --clr-success-a20: #9ae8ce;
+
+            --clr-warning-a0: #a87a2a;
+            --clr-warning-a10: #d7ac61;
+            --clr-warning-a20: #ecd7b2;
+
+            --clr-danger-a0: #9c2121;
+            --clr-danger-a10: #d94a4a;
+            --clr-danger-a20: #eb9e9e;
+
+            --clr-info-a0: #21498a;
+            --clr-info-a10: #4077d1;
+            --clr-info-a20: #92b2e5;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: var(--clr-surface-a10);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .email-container {
+            background: var(--clr-surface-a0);
+            padding: 2rem 2.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 320px;
+        }
+
+        .email-container h1 {
+            margin-bottom: 1.5rem;
+            text-align: center;
+            color: var(--clr-light-a0);
+        }
+
+        .button {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: var(--clr-primary-a50);
+            color: var(--clr-dark-a0);
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .button:hover {
+            background-color: var(--clr-primary-a0);
+        }
+    </style>
+</head>
+<body>
+<div class="email-container">
+    <h1>Hello, <span th:text="${clientName}"></span>!</h1>
+    <p>Thank you for registering with us. To complete your registration, please confirm your email address by clicking
+        the button below:</p>
+
+    <a class="button" th:href="@{'https://localhost:8443/verification?verificationId=' + ${verificationUid}}">Confirm
+        Email</a>
+
+    <p>If you did not request this, please ignore this email.</p>
+</div>
+</body>
+</html>

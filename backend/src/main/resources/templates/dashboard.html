@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        :root {
+            --clr-dark-a0: #000000;
+            --clr-light-a0: #ffffff;
+
+            --clr-primary-a0: #c0ddca;
+            --clr-primary-a10: #c7e1d0;
+            --clr-primary-a20: #cee5d6;
+            --clr-primary-a30: #d5e8db;
+            --clr-primary-a40: #dcece1;
+            --clr-primary-a50: #e3f0e7;
+
+            --clr-surface-a0: #121212;
+            --clr-surface-a10: #282828;
+            --clr-surface-a20: #3f3f3f;
+            --clr-surface-a30: #575757;
+            --clr-surface-a40: #717171;
+            --clr-surface-a50: #8b8b8b;
+
+            --clr-surface-tonal-a0: #212322;
+            --clr-surface-tonal-a10: #363837;
+            --clr-surface-tonal-a20: #4c4d4c;
+            --clr-surface-tonal-a30: #636463;
+            --clr-surface-tonal-a40: #7b7c7b;
+            --clr-surface-tonal-a50: #949594;
+
+            --clr-success-a0: #22946e;
+            --clr-success-a10: #47d5a6;
+            --clr-success-a20: #9ae8ce;
+
+            --clr-warning-a0: #a87a2a;
+            --clr-warning-a10: #d7ac61;
+            --clr-warning-a20: #ecd7b2;
+
+            --clr-danger-a0: #9c2121;
+            --clr-danger-a10: #d94a4a;
+            --clr-danger-a20: #eb9e9e;
+
+            --clr-info-a0: #21498a;
+            --clr-info-a10: #4077d1;
+            --clr-info-a20: #92b2e5;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: var(--clr-surface-a10);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .dashboard-container {
+            background: var(--clr-surface-a0);
+            padding: 2rem 2.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 350px;
+            text-align: center;
+        }
+
+        .dashboard-container h1 {
+            margin-bottom: 1.5rem;
+            color: var(--clr-light-a0);
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.9rem;
+            color: var(--clr-light-a0);
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.6rem;
+            border: 1px solid var(--clr-surface-a10);
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .counter {
+            margin-top: 1.5rem;
+            font-size: 1rem;
+            color: var(--clr-light-a0);
+        }
+
+        .button {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: var(--clr-primary-a50);
+            color: var(--clr-dark-a0);
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .button:hover {
+            background-color: var(--clr-primary-a0);
+        }
+
+        .error-message {
+            margin-top: 1rem;
+            color: var(--clr-danger-a0);
+            font-size: 0.9rem;
+        }
+
+        .success-message {
+            margin-top: 1rem;
+            color: var(--clr-success-a0);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="dashboard-container">
+    <h1>Welcome, <span th:text="${username}">User</span>!</h1>
+
+    <div class="form-group">
+        <label for="apiKey">Your API Key</label>
+        <input type="text" id="apiKey" th:value="${apiKey}" disabled>
+    </div>
+
+    <button class="button" id="regenerateApiKeyButton">Regenerate API Key</button>
+    <button class="button" id="copyApiKeyButton">Copy API Key</button>
+
+    <div class="counter">
+        <p>API Calls: <span id="apiCallsCount" th:text="${apiCallsCount}">0</span></p>
+    </div>
+
+    <div id="message" class="error-message"></div>
+</div>
+
+<script>
+    document.getElementById("regenerateApiKeyButton").addEventListener("click", function() {
+        fetch("/api/v1/administration/client/regenerate", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-API-KEY": document.getElementById("apiKey").value
+            }
+        })
+            .then(response => {
+                if (response.status === 200) {
+                    response.json().then(data => {
+                        document.getElementById("apiKey").value = data.apiKey;
+                        document.getElementById("message").innerHTML = '<div class="success-message">API Key successfully regenerated!</div>';
+                    });
+                } else {
+                    throw new Error("Failed to regenerate API Key");
+                }
+            })
+            .catch(error => {
+                document.getElementById("message").innerHTML = `<div class="error-message">${error.message}</div>`;
+            });
+    });
+
+    document.getElementById("copyApiKeyButton").addEventListener("click", function() {
+        const apiKey = document.getElementById("apiKey");
+
+        navigator.clipboard.writeText(apiKey.value)
+            .then(() => {
+                document.getElementById("message").innerHTML = '<div class="success-message">API Key copied to clipboard!</div>';
+            })
+            .catch(error => {
+                document.getElementById("message").innerHTML = `<div class="error-message">Failed to copy API Key: ${error}</div>`;
+            });
+    });
+</script>
+
+</body>
+</html>

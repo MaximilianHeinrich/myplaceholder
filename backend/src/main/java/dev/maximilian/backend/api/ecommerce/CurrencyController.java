@@ -13,6 +13,9 @@ public class CurrencyController {
 
     private final CurrencyService currencyService;
 
-
+    @GetMapping("list")
+    public String listCurrencies() {
+        return "List of currencies";
+    }
 
 }

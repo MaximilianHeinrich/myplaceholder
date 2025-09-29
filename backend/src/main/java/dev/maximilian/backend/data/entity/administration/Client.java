@@ -6,20 +6,22 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.UUID;
 
-//TODO: Env variable for development
-//TODO: Confirmation email sending
 //TODO: Regex
-//TODO: Self cleanup of unverified clients after a certain period
+//TODO: System rate limiting for API key usage
 @Entity
 @Table(name = "clients")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Data
-public class Client {
+public class Client implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,9 +43,40 @@ public class Client {
         if (apiKey == null) {
             apiKey = UUID.randomUUID().toString();
         }
-        if (verificationId == null) {
-            verificationId = UUID.randomUUID().toString();
-        }
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.emptyList();
+    }
+
+    @Override
+    public String getPassword() {
+        return this.password;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.username;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return this.verified;
+    }
 }
