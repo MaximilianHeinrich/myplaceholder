@@ -1,0 +1,5 @@
+[book]
+authors = ["maximilianheinrich"]
+language = "en"
+src = "src"
+title = "myplaceholder - Docs"
